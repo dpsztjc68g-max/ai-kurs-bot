@@ -1,0 +1,8 @@
+name = "ai-kurs-bot"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+KASPI_PHONE = "8 705 184 15 56"
+KASPI_NAME = "Аякоз А."
+MANAGER = "@Damesh2001"
