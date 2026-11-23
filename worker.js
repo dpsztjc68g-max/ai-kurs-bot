@@ -59,6 +59,13 @@ const mainMenu = (c) => [
 ];
 const backBuy = (c) => [[btn(`💰 Курсты сатып алу — ${c.price}`, "buy")], [btn("⬅️ Мәзірге оралу", "menu")]];
 
+const payKb = () => [[btn("✅ Төледім", "paid")]];
+const startText = (c) =>
+  "Сәлеметсіз бе! 👋\n\n🎬 <b>«Жасанды интеллект курсы»</b> — 16 сабақ, шексіз доступ.\n\n" +
+  `💰 Бүгінгі баға: <s>${c.old}</s> <b>${c.price}</b>\n\n` +
+  `💳 <b>Kaspi аударым:</b>\nНөмір: <code>${c.phone}</code>\nАлушы: ${c.name}\nСома: ${c.price}\n\n` +
+  "Төлеген соң «✅ Төледім» батырмасын басып, чектің скриншотын жіберіңіз 👇";
+
 const welcome = (c) =>
   "Сәлеметсіз бе! 👋 Мен — <b>Дамеш Тауасарова</b>, жасанды интеллект маманы.\n\n" +
   "🎬 <b>«Жасанды интеллект курсы»</b> — телефонмен-ақ кино деңгейіндегі видео, AI мульт, нейрофото және контент жасауды үйренесіз.\n\n" +
@@ -97,7 +104,7 @@ async function onCallback(c, cq) {
   const chat = cq.message.chat.id;
   await tg(c, "answerCallbackQuery", { callback_query_id: cq.id });
 
-  if (data === "menu") return send(c, chat, welcome(c), mainMenu(c));
+  if (data === "menu" || data === "buy") return send(c, chat, startText(c), payKb());
   if (data === "program") return send(c, chat, program(), backBuy(c));
   if (data === "faq") return send(c, chat, FAQ, backBuy(c));
   if (data === "manager") return send(c, chat, `👩‍💻 Сұрағыңыз болса, жазыңыз: ${c.manager}`, [[btn("⬅️ Мәзірге оралу", "menu")]]);
@@ -140,7 +147,7 @@ async function onMessage(c, msg) {
   if (text.startsWith("/id")) return send(c, chat.id, `Бұл чаттың ID-і: <code>${chat.id}</code>`);
   if (chat.type !== "private") return;
 
-  if (text.startsWith("/start")) return send(c, chat.id, welcome(c), mainMenu(c));
+  if (text.startsWith("/start")) return send(c, chat.id, startText(c), payKb());
 
   if (msg.photo || msg.document) {
     const u = msg.from;
@@ -156,7 +163,7 @@ async function onMessage(c, msg) {
     await tg(c, "sendMessage", d);
     return send(c, chat.id, "✅ Чегіңіз қабылданды! Төлем тексерілген соң курс сілтемесі осында келеді ⏳");
   }
-  return send(c, chat.id, welcome(c), mainMenu(c));
+  return send(c, chat.id, startText(c), payKb());
 }
 
 async function secretOf(token) {
