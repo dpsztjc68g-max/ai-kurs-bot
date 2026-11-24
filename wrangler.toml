@@ -9,3 +9,6 @@ KASPI_NAME = "Аякоз А."
 MANAGER = "@Damesh2001"
 ADMIN_CHAT_ID = "-5508391099"
 COURSE_CHAT_ID = "-1004456361923"
+
+[assets]
+directory = "./public"
